@@ -121,6 +121,7 @@ signals = logging.getLogger('signals')
 hints = logging.getLogger('hints')
 keyboard = logging.getLogger('keyboard')
 downloads = logging.getLogger('downloads')
+history = logging.getLogger('history')
 js = logging.getLogger('js')  # Javascript console messages
 qt = logging.getLogger('qt')  # Warnings produced by Qt
 style = logging.getLogger('style')

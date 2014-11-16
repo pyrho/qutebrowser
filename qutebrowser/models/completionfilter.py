@@ -126,9 +126,14 @@ class CompletionFilterModel(QSortFilterProxyModel):
         idx = self.srcmodel.index(row, 0, parent)
         qtutils.ensure_valid(idx)
         data = self.srcmodel.data(idx)
+        # Not sure why, but this happens sometimes
+        if not data:
+            return True
+        log.completion.debug("Current data: %s" % self.srcmodel.data(idx))
         # TODO more sophisticated filtering
         if not self.pattern:
             return True
+        log.completion.debug("Current pattern: %s" % self.pattern)
         return self.pattern.casefold() in data.casefold()
 
     def lessThan(self, lindex, rindex):
@@ -155,6 +160,9 @@ class CompletionFilterModel(QSortFilterProxyModel):
 
         left = self.srcmodel.data(lindex)
         right = self.srcmodel.data(rindex)
+        # this happens sometimes, I don't know why
+        if not left or not right:
+            return False
 
         leftstart = left.startswith(self.pattern)
         rightstart = right.startswith(self.pattern)

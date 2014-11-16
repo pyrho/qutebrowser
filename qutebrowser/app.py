@@ -40,7 +40,7 @@ import qutebrowser
 from qutebrowser.commands import cmdutils, runners
 from qutebrowser.config import style, config, websettings
 from qutebrowser.network import qutescheme, proxy
-from qutebrowser.browser import quickmarks, cookies, cache
+from qutebrowser.browser import quickmarks, cookies, cache, webhistory
 from qutebrowser.widgets import mainwindow, crash
 from qutebrowser.keyinput import modeman
 from qutebrowser.utils import (log, version, message, readline, utils, qtutils,
@@ -159,6 +159,9 @@ class Application(QApplication):
         log.init.debug("Initializing quickmarks...")
         quickmark_manager = quickmarks.QuickmarkManager()
         objreg.register('quickmark-manager', quickmark_manager)
+        log.init.debug("Initializing history...")
+        history_manager = webhistory.HistoryManager()
+        objreg.register('history-manager', history_manager)
         log.init.debug("Initializing proxy...")
         proxy.init()
         log.init.debug("Initializing cookies...")
@@ -698,11 +701,17 @@ class Application(QApplication):
             else:
                 to_save.append(("command history", command_history.save))
             try:
+                history_manager = objreg.get('history-manager')
+            except KeyError:
+                pass
+            else:
+                to_save.append(("web history", history_manager.save))
+            try:
                 quickmark_manager = objreg.get('quickmark-manager')
             except KeyError:
                 pass
             else:
-                to_save.append(("command history", quickmark_manager.save))
+                to_save.append(("quickmarks", quickmark_manager.save))
             try:
                 state_config = objreg.get('state-config')
             except KeyError:

@@ -29,7 +29,7 @@ from PyQt5.QtCore import pyqtSlot, pyqtSignal, Qt, QItemSelectionModel
 from qutebrowser.commands import cmdutils
 from qutebrowser.config import config, style
 from qutebrowser.widgets import completiondelegate
-from qutebrowser.utils import completer, usertypes, qtutils, objreg, utils
+from qutebrowser.utils import completer, usertypes, qtutils, objreg, utils, log
 
 
 class CompletionView(QTreeView):
@@ -82,7 +82,7 @@ class CompletionView(QTreeView):
             border: 0px;
         }
     """
-    COLUMN_WIDTHS = (20, 70, 10)
+    COLUMN_WIDTHS = (80, 20, 0)
 
     # FIXME style scrollbar
     # https://github.com/The-Compiler/qutebrowser/issues/117

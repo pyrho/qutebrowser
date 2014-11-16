@@ -34,6 +34,7 @@ from qutebrowser.widgets import tabwidget, webview
 from qutebrowser.browser import signalfilter, commands
 from qutebrowser.utils import (log, message, usertypes, utils, qtutils, objreg,
                                urlutils)
+from qutebrowser.browser import webhistory
 
 
 UndoEntry = collections.namedtuple('UndoEntry', ['url', 'history'])
@@ -117,6 +118,7 @@ class TabbedBrowser(tabwidget.TabWidget):
         # https://github.com/The-Compiler/qutebrowser/issues/119
         self.setIconSize(QSize(12, 12))
         objreg.get('config').changed.connect(self.update_favicons)
+        webhistory.WebHistoryInterface.setDefaultInterface()
 
     def __repr__(self):
         return utils.get_repr(self, count=self.count())

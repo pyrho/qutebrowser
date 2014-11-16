@@ -230,3 +230,29 @@ class QuickmarkCompletionModel(basecompletion.BaseCompletionModel):
         else:
             raise ValueError("Invalid value '{}' for match_field!".format(
                 match_field))
+
+class UrlCompletionModel(basecompletion.BaseCompletionModel):
+
+    """A completion model for quickmarks and history."""
+
+    def __init__(self, parent=None):
+        super().__init__(parent)
+
+        self.cat = self.new_category("Url")
+
+        # Complete quickmarks
+        quickmarks = objreg.get('quickmark-manager').marks.items()
+
+        for qm_name, qm_url in quickmarks:
+            self.new_item(self.cat, qm_url, qm_name)
+
+        # Complete history
+        history = objreg.get('history-manager').getHistory()
+        #history = ['google.fr', 'facebook.com']
+        
+        for h in history:
+            self.new_item(self.cat, h)
+
+    def addNewEntry(self, entry):
+        if self.cat:
+            self.new_item(self.cat, entry)

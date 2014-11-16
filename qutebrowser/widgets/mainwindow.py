@@ -269,6 +269,10 @@ class MainWindow(QWidget):
         quickmark_manager = objreg.get('quickmark-manager')
         quickmark_manager.changed.connect(completer.init_quickmark_completions)
 
+        history_manager = objreg.get('history-manager')
+        url_completion_model = completer.models[usertypes.Completion.url].srcmodel
+        history_manager.item_added.connect(url_completion_model.addNewEntry)
+
     @pyqtSlot()
     def resize_completion(self):
         """Adjust completion according to config."""

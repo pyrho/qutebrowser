@@ -275,7 +275,8 @@ class CommandDispatcher:
 
     @cmdutils.register(instance='command-dispatcher', name='open',
                        split=False, scope='window',
-                       completion=[usertypes.Completion.quickmark_by_url])
+                       completion=[usertypes.Completion.url])
+                       #completion=[usertypes.Completion.quickmark_by_url, usertypes.Completion.history])
     def openurl(self, url, bg=False, tab=False, window=False,
                 count: {'special': 'count'}=None):
         """Open a URL in the current/[count]th tab.
